@@ -1,120 +1,127 @@
-console.log('ello');
-// const body = document.getElementsByTagName('body')[0];
+const projectBtn = document.getElementById('new-project');
+const displayProject = document.getElementById('display-project');
+const saveProjectBtn = document.getElementById('save-project');
+const setDefaultBtn = document.getElementById('set-default');
 
-// const table = document.createElement('table')
-// const tbody = document.createElement('tbody')
-// const trow = docment.createElement('tr')
-// const thead = document.createElement('th')
-// const theadData = document.createElement('td');
-// const tdata = document.createElement('td')
-// const h1 = document.createElement('h1');
 
-// h1.textContent = " i am h1"
 
-// body.appendChild(h1)
-// console.log(body)
-// body.appendChild(table)
-// table.appendChild(tbody)
-// // tbody.textContent = "table body"
-// thead.textContent = "table head"
-// tbody.appendChild(thead)
+// Add new Project div to DOM while hiding the previous Project div
+projectBtn.addEventListener('click', addProject);
 
-// tbody.appendChild(trow)
-// tdata.textContent = "table data"
+let count = 0;
+function addProject() {
+    count++;
+    const Array = [];
+    Array.push(count);
+    for (let i = 0; i < Array.length; i++) {
+        
+        //Call function to Populate project div with task button and table with a header
+        projectDetails(Array[count], count);
 
-// trow.appendChild(tdata)
-const button = document.createElement('button');
-document.body.appendChild(button);
-button.textContent = "Add Row"
-
-function generateTable() {
-    // creates a <table> element and a <tbody> element
-    const tbl = document.createElement("table");
-    const tblBody = document.createElement("tbody");
-  
-    // creating all cells
-    for (let i = 0; i < 1; i++) {
-      // creates a table row
-      const row = document.createElement("tr");
-  
-      for (let j = 0; j < 5; j++) {
-        // Create a <td> element and a text node, make the text
-        // node the contents of the <td>, and put the <td> at
-        // the end of the table row
-        const cell = document.createElement("td");
-        // const cellText = document.createTextNode(`cell in row ${i}, column ${j}`);
-        // cell.appendChild(cellText);
-        cell.textContent = "hello"
-        row.appendChild(cell);
-      }
-  
-      // add the row to the end of the table body
-      tblBody.appendChild(row);
     }
-  
-    // put the <tbody> in the <table>
-    tbl.appendChild(tblBody);
-    // appends <table> into <body>
-    document.body.appendChild(tbl);
-    // sets the border attribute of tbl to '2'
-    tbl.setAttribute("border", "2");
-  }
+    if (count > 1) {
+        //Hide Previous Project div
+        projectHide(Array[count - 1]);
+    }
 
-button.addEventListener('click', generateTable)
+}
 
-// Edit Cell by clicking
-const tableRow = document.getElementById('table-row')
-const children = Array.from(tableRow.children);
-console.log(children)
+function projectDetails(newdiv, num) {
 
-children.forEach(child => {
-    child.addEventListener('click', edit)
+    newdiv = document.createElement('div');
+    const taskDiv = document.createElement('div');
+    const taskBtn = document.createElement('button');
+    taskDiv.classList.add('task-div');
+    taskBtn.classList.add('task-btn');
+    taskBtn.textContent = "Add New Task";
+    taskDiv.appendChild(taskBtn);
+    newdiv.appendChild(taskDiv);
+    document.body.appendChild(newdiv);
+    newdiv.classList.add('project');
+    newdiv.classList.add(`project-${num}`);
+
+    //function to save current div into an array
+    saveProject(newdiv);
+
+    //function to create a table with a header and header titles
+    createToDoHead(newdiv);
+
+
+    taskBtn.addEventListener('click', addNewTask);
+}
+
+function addNewTask() {
+    const tblBody = document.body.children[3].children[1].children[0];
+    const taskRow = document.createElement('tr');
+    for (let i = 0; i < 8; i++) {
+        const cell = document.createElement('td');
+        cell.classList.add('cell');
+        cell.textContent = `data ${i}`;
+        taskRow.appendChild(cell);
+    }
+    tblBody.appendChild(taskRow);
+}
+
+const projectArray = [];
+function saveProject(currentdiv) {
+    projectArray.push(currentdiv);
+    console.log(projectArray);
+}
+
+saveProjectBtn.addEventListener('click', addOptionsToDisplayProject);
+
+function addOptionsToDisplayProject() {
+    const option = document.createElement('option');
+    option.text = projectArray[projectArray.length - 1].classList[1];
+    option.value = projectArray[projectArray.length - 1].classList[1];
+    console.log(projectArray[projectArray.length - 1].classList[1]);
+    displayProject.add(option);
+    console.log(displayProject.options)
+
+}
+
+setDefaultBtn.addEventListener('click', setDefaultProject);
+
+function setDefaultProject() {
+    const DEFAULT = document.body.children[3];
+    console.log(DEFAULT)
+}
+
+
+function projectHide() {
+    const previousDiv = document.body.children[3];
+    document.body.removeChild(previousDiv);
+}
+
+
+const createToDoHead = ((div) => {
+    const headers = ['title', 'currentDate', 'dueDate', 'type', 'priority', 'daysRemaining', 'notes', 'check'];
+    const table = document.createElement('table');
+    table.classList.add('table');
+    const tblBody = document.createElement('tbody');
+    const headRow = document.createElement('tr');
+    for (let i = 0; i < 8; i++) {
+        const cell = document.createElement('td');
+        cell.classList.add('cell');
+        const header = headers[i].toUpperCase();
+        cell.textContent = `${header}`;
+        headRow.appendChild(cell);
+    }
+    tblBody.appendChild(headRow);
+
+    table.appendChild(tblBody);
+    div.appendChild(table);
+
 })
 
-function edit(e) {
-    e.target.contentEditable = true;
-}
 
-
-//select button to disable the rest of the buttons
-const priorBtns = document.getElementsByClassName('button-prior');
-const btnsArray = Array.from(priorBtns)
-
-btnsArray.forEach(button => {
-    button.addEventListener('click', disableRest)
-
-})
-
-function disableRest(e) {
-    btnsArray.forEach(button => {
-        button.disabled = true;
-    })
-    e.target.disabled = false;
-}
-
-
-// console log select option 
-const newProject = document.getElementById('new-project');
-const project1 = document.getElementById("project1")
-
-const projects = document.getElementById('projects');
-
-projects.addEventListener('change', display)
-
-
-function display(e) {
-    if(e.target.value === 'project1')
-    document.body.appendChild(project1);
-    console.log(e.target.value)
-}
-
-// create and display new project as new div
-newProject.addEventListener('click', createProjectDiv)
-
-function createProjectDiv() {
-    let i = 2;
-const newDiv = document.createElement('div');
-newDiv.setAttribute('id', `project${i}`);
-document.body.removeChild(project1);
-document.body.appendChild(newDiv);
-}
+const taskFactory = (title, currentDate, dueDate, type, priority, daysRemaining, notes, check) => {
+    this.title = title;
+    this.currentDate = currentDate;
+    this.dueDate = dueDate;
+    this.type = type;
+    this.priority = priority;
+    this.daysRemaining = daysRemaining;
+    this.notes = notes;
+    this.check = check;
+} 
