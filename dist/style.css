@@ -1,63 +1,38 @@
-#project1 {
-    display: flex;
+.project {
+    display: grid;
+    align-items: flex-start;
+    justify-content: center;
+    grid-template-columns: 1fr 6fr;
+    height: 500px;
+    width: 1200px;
+    background-color: aquamarine;
+    padding: 20px;
+}
+
+body {
+    display: grid;
+    grid-template-rows: .25fr 1fr;
     justify-content: center;
     align-items: center;
 }
 
-table {
+.table, .cell {
     border: 1px solid black;
+    background-color: aliceblue;
 }
 
- 
-td {
-    border: 1px solid black;
+.table {
+    margin-top: 25px;
 }
 
-.button-prior {
-    border-radius: 50%;
-    height: 20px;
-    width: 20px;
-    border: 1px solid gray;
+.cell {
+    width: auto;
+    padding: 12px;
 }
 
-.prior {
+.task-div {
     display: flex;
-    gap: 10px;
-
-}
-
-.prior>:nth-child(1) {
-    background-color: red;
-}
-
-.prior>:nth-child(1):hover {
-    background-color: rgb(161, 0, 0);
-}
-
-.prior>:nth-child(1):disabled {
-    background-color: rgb(248, 169, 169);
-}
-
-.prior>:nth-child(2) {
-    background-color: yellow;
-}
-
-.prior>:nth-child(2):hover {
-    background-color: rgb(170, 170, 0);
-}
-
-.prior>:nth-child(2):disabled {
-    background-color: rgb(255, 255, 174);
-}
-
-.prior>:nth-child(3) {
-    background-color: blue;
-}
-
-.prior>:nth-child(3):hover {
-    background-color: rgb(0, 0, 170);
-}
-
-.prior>:nth-child(3):disabled {
-    background-color: rgb(123, 123, 255);
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
 }
