@@ -46,7 +46,7 @@ function projectDetails(newdiv, num) {
     //function to create a table with a header and header titles
     createToDoHead(newdiv);
 
-
+    //button to call function to add new row to todo list
     taskBtn.addEventListener('click', addNewTask);
 }
 
@@ -68,6 +68,8 @@ function saveProject(currentdiv) {
     console.log(projectArray);
 }
 
+
+// Button to call function to save project div as option into the display project select input
 saveProjectBtn.addEventListener('click', addOptionsToDisplayProject);
 
 function addOptionsToDisplayProject() {
@@ -80,6 +82,7 @@ function addOptionsToDisplayProject() {
 
 }
 
+// Button to set current project div as a default project to display when DOM is reloaded *incomplete*
 setDefaultBtn.addEventListener('click', setDefaultProject);
 
 function setDefaultProject() {
@@ -87,13 +90,13 @@ function setDefaultProject() {
     console.log(DEFAULT)
 }
 
-
+// Hide Previous project div
 function projectHide() {
     const previousDiv = document.body.children[3];
     document.body.removeChild(previousDiv);
 }
 
-
+// Create table with a header and title into the current div
 const createToDoHead = ((div) => {
     const headers = ['title', 'currentDate', 'dueDate', 'type', 'priority', 'daysRemaining', 'notes', 'check'];
     const table = document.createElement('table');
@@ -114,7 +117,7 @@ const createToDoHead = ((div) => {
 
 })
 
-
+// Factory function for TODO list contents
 const taskFactory = (title, currentDate, dueDate, type, priority, daysRemaining, notes, check) => {
     this.title = title;
     this.currentDate = currentDate;
