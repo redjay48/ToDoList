@@ -5,41 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>TO DO Temp</title>
 </head>
 <body>
-    <button id="new-project">Create New Project</button>
-    <br>
-    <label for="projects">Display Project</label>
-    <select name="projects" id="projects">
-        <option value="project2">Project 2</option>
-        <option value="project1">Project 1</option>
-
-    </select>
-    <div id="project1">
-        <table id="tasks">
-            <tbody>
-                <thead>
-                    <td>Title</td>
-                    <td>Priority</td>
-                    <td>Type</td>
-                    <td>Time of Creation</td>
-                    <td>Due Date</td>
-                </thead>
-                <tr id="table-row">
-                    <td>data 1</td>
-                    <td class="prior"><button class="button-prior"></button><button class="button-prior"></button><button class="button-prior"></button></td>
-                    <td><select name="" id="">
-                        <option value="">Company</option>
-                        <option value="">Personal</option>
-                    </select></td>
-                    <td><time type="">
-                    </time></td>
-                    <td><input type="datetime-local" name="" id=""></td>
-                </tr>
-            </tbody>
-        </table>
+    <div id="header">
+        <button id="new-project">Add New Project</button>
+        <label for="display-project">Display Project</label>
+        <select name="display-project" id="display-project">
+            <option value="">--Choose Project to Display--</option>
+        </select>
+        <button id="set-default">Set Current Project as Default</button>
+        <button id="save-project">Save Current Project</button>
     </div>
-    <script src="main.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>
