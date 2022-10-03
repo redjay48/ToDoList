@@ -4,7 +4,7 @@
     justify-content: center;
     grid-template-columns: 1fr 6fr;
     height: 500px;
-    width: 1200px;
+    width: 1400px;
     background-color: aquamarine;
     padding: 20px;
 }
@@ -16,7 +16,8 @@ body {
     align-items: center;
 }
 
-.table, .cell {
+.table,
+.cell {
     border: 1px solid black;
     background-color: aliceblue;
 }
@@ -26,13 +27,72 @@ body {
 }
 
 .cell {
-    width: auto;
     padding: 12px;
 }
 
 .task-div {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-top: 40px;
+}
+
+.cell {
+    align-self: center;
+}
+
+.priority-btn {
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    border: 1px solid gray;
+}
+
+.high {
+    background-color: red;
+}
+
+.high:hover {
+    background-color: rgb(161, 0, 0);
+}
+
+.high:disabled {
+    background-color: rgb(248, 169, 169);
+}
+
+.medium {
+    background-color: yellow;
+}
+
+.medium:hover {
+    background-color: rgb(170, 170, 0);
+}
+
+.medium:disabled {
+    background-color: rgb(255, 255, 174);
+}
+
+.low {
+    background-color: blue;
+}
+
+.low:hover {
+    background-color: rgb(0, 0, 170);
+}
+
+.low:disabled {
+    background-color: rgb(123, 123, 255);
+}
+
+
+#notes {
+    max-width: 60px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.line-through {
+    text-decoration: line-through;
 }
