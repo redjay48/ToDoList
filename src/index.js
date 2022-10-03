@@ -119,57 +119,178 @@ const project = (() => {
 })();
 
 
+const table = (() => {
 
+    const taskRowArray = [];
 
+    const createToDoHead = (div) => {
+        const headers = ['', 'title', 'Current Date', 'Due Date', 'Type', 'Priority', 'Time Remaining', 'Notes', 'done'];
+        const table = document.createElement('table');
+        table.classList.add('table');
+        const tblBody = document.createElement('tbody');
+        const headRow = document.createElement('tr');
+        for (let i = 0; i < 9; i++) {
+            const cell = document.createElement('td');
+            cell.classList.add('cell');
+            const header = headers[i].toUpperCase();
+            cell.textContent = `${header}`;
+            headRow.appendChild(cell);
+        }
+        tblBody.appendChild(headRow);
 
-
-// Button to call function to save project div as option into the display project select input
-saveProjectBtn.addEventListener('click', addOptionsToDisplayProject);
-
-function addOptionsToDisplayProject() {
-    const option = document.createElement('option');
-    option.text = projectArray[projectArray.length - 1].classList[1];
-    option.value = projectArray[projectArray.length - 1].classList[1];
-    console.log(projectArray[projectArray.length - 1].classList[1]);
-    displayProject.add(option);
-    console.log(displayProject.options)
-
-}
-
-// Button to set current project div as a default project to display when DOM is reloaded *incomplete*
-setDefaultBtn.addEventListener('click', setDefaultProject);
-
-function setDefaultProject() {
-    const DEFAULT = document.body.children[3];
-    console.log(DEFAULT)
-}
-
-// Hide Previous project div
-function projectHide() {
-    const previousDiv = document.body.children[3];
-    document.body.removeChild(previousDiv);
-}
-
-// Create table with a header and title into the current div
-const createToDoHead = ((div) => {
-    const headers = ['title', 'currentDate', 'dueDate', 'type', 'priority', 'daysRemaining', 'notes', 'check'];
-    const table = document.createElement('table');
-    table.classList.add('table');
-    const tblBody = document.createElement('tbody');
-    const headRow = document.createElement('tr');
-    for (let i = 0; i < 8; i++) {
-        const cell = document.createElement('td');
-        cell.classList.add('cell');
-        const header = headers[i].toUpperCase();
-        cell.textContent = `${header}`;
-        headRow.appendChild(cell);
+        table.appendChild(tblBody);
+        div.appendChild(table);
     }
-    tblBody.appendChild(headRow);
 
-    table.appendChild(tblBody);
-    div.appendChild(table);
 
-})
+    const addNewTaskToTable = () => {
+        const headers = ['sl-no', 'title', 'Current Date', 'Due Date', 'Type', 'Priority', 'Time Remaining', 'Notes', 'done'];
+        const tblBody = document.body.children[3].children[1].children[0];
+        const taskRow = document.createElement('tr');
+        taskRowArray.push(taskRow);
+        for (let i = 0; i < 9; i++) {
+            const cell = document.createElement('td');
+            const className = headers[i].toLowerCase().split(/[ ,]+/).join('-');
+            cell.classList.add('cell');
+            cell.setAttribute('id', className);
+            // cell.textContent = `data ${i}`;
+            taskRow.appendChild(cell);
+        }
+        taskRow.children[0].textContent = taskRowArray.length;
+
+
+        task.title(taskRow);
+        task.type(taskRow);
+        task.taskBtns(taskRow);
+        task.priorityBtns(taskRow);
+        task.completion(taskRow);
+        task.notes(taskRow);
+
+        tblBody.appendChild(taskRow);
+
+        // console.log(taskRowArray.length);
+        // console.log(taskRowArray);
+        // console.log(Array.from(taskRow.children));
+        // console.log(taskRow.children);
+    }
+
+
+    return {
+        createToDoHead,
+        addNewTaskToTable
+    }
+})();
+
+const task = (() => {
+    const title = (row) => {
+        row.children[1].title = "Click To Edit";
+        row.children[1].contentEditable = true;
+    }
+
+    const type = (row) => {
+        const typeSelection = document.createElement('select');
+        typeSelection.classList.add('task-type');
+        const optionArray = ['Development', 'Marketing', 'Management', 'Personal'];
+        const emptyOption = document.createElement('option');
+        emptyOption.text = "--Choose Task Type--";
+        emptyOption.value = '';
+        typeSelection.add(emptyOption);
+        for (let i = 0; i < 4; i++) {
+            const option = document.createElement('option');
+            option.text = optionArray[i];
+            option.value = optionArray[i].toLowerCase();
+            typeSelection.add(option);
+        }
+        row.children[4].appendChild(typeSelection);
+    }
+
+    const taskBtns = (row) => {
+        const taskBtnArray = ['Save', 'Edit', 'Delete'];
+        const taskBtnDiv = document.createElement('div');
+        taskBtnDiv.classList.add('task-btn-div');
+        for (let i = 0; i < 3; i++) {
+            const btn = document.createElement('button');
+            btn.classList.add('task-btns');
+            btn.textContent = taskBtnArray[i];
+
+            taskBtnDiv.appendChild(btn);
+        }
+        row.appendChild(taskBtnDiv);
+    }
+
+    const priorityBtns = (row) => {
+        priorityBtnArray = ['high', 'medium', 'low', 'none'];
+        const priorityBtnDiv = document.createElement('div');
+        priorityBtnDiv.classList.add('priority-btn-div');
+        for (let i = 0; i < 4; i++) {
+            const btn = document.createElement('button');
+            btn.classList.add('priority-btn', priorityBtnArray[i]);
+            btn.title = priorityBtnArray[i].toUpperCase();
+            priorityBtnDiv.appendChild(btn);
+        }
+        row.children[5].appendChild(priorityBtnDiv);
+    }
+
+    const completion = (row) => {
+        const checkDiv = document.createElement('div');
+        checkDiv.classList.add('checkbox-div');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.classList.add('completion');
+        if(checkbox.checked) {
+            console.log('checked')
+            row.children[1].classList.add('line-through');
+        } else {
+            row.children[1].classList.remove('line-through');
+        }
+        checkDiv.appendChild(checkbox);
+        row.children[8].appendChild(checkDiv);
+
+
+        
+    }
+
+    const notes = (row) => {
+        if (row.children[7].textContent === '') {
+            row.children[7].title = `Click to Edit`;
+        }
+        row.children[7].addEventListener('mousedown', (e) => {
+            row.children[7].textContent = '';
+            row.children[7].textContent = prompt('Enter Note:');
+            const note = row.children[7].textContent;
+            row.children[7].title = `${note} || Click to Edit`;
+        })
+        
+    }
+
+
+    return {
+        title,
+        type,
+        taskBtns,
+        priorityBtns,
+        completion,
+        notes
+    }
+})();
+
+newProjectBtn.addEventListener('click', project.createProjectDiv);
+
+
+saveProjectBtn.addEventListener('click', project.saveProjectToSelection);
+
+
+setDefaultBtn.addEventListener('click', project.setDefaultProject);
+
+
+deleteProjectBtn.addEventListener('click', project.deleteProject);
+
+
+displayProjectSelection.addEventListener('change', project.displayProject);
+
+
+
+
 
 // Factory function for TODO list contents
 const taskFactory = (title, currentDate, dueDate, type, priority, daysRemaining, notes, check) => {
