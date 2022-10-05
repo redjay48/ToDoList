@@ -205,17 +205,25 @@ const task = (() => {
     }
 
     const taskBtns = (row) => {
-        const taskBtnArray = ['Save', 'Edit', 'Delete'];
+        const taskNameArray = ['Save', 'Edit', 'Delete'];
         const taskBtnDiv = document.createElement('div');
         taskBtnDiv.classList.add('task-btn-div');
         for (let i = 0; i < 3; i++) {
             const btn = document.createElement('button');
             btn.classList.add('task-btns');
-            btn.textContent = taskBtnArray[i];
+            btn.setAttribute('id', taskNameArray[i].toLowerCase());
+            btn.textContent = taskNameArray[i];
 
             taskBtnDiv.appendChild(btn);
         }
         row.appendChild(taskBtnDiv);
+
+        const taskBtnsArray = Array.from(taskBtnDiv.children);
+        taskBtnsArray.forEach(button => {
+            button.addEventListener('click', (e) => {
+                saveEditDelete.taskFns(e, row);
+            });
+        })
     }
 
     const priorityBtns = (row) => {
@@ -259,17 +267,17 @@ const task = (() => {
             const note = row.children[7].textContent;
             row.children[7].title = `${note} || Click to Edit`;
         })
-        
+
     }
 
     const _check = (e) => {
         const title = e.target.parentNode.parentNode.parentNode.children[1];
-        if(e.target.checked){
+        if (e.target.checked) {
             title.classList.add('line-through');
         } else {
             title.classList.remove('line-through');
         }
-        
+
     }
 
     const disableRest = (e) => {
@@ -280,6 +288,7 @@ const task = (() => {
         e.target.disabled = false;
     }
 
+
     return {
         title,
         type,
@@ -287,6 +296,42 @@ const task = (() => {
         priorityBtns,
         completion,
         notes,
+    }
+})();
+
+
+
+const saveEditDelete = (() => {
+    const taskFns = (e,task) => {
+        const buttonId = e.target.getAttribute('id');
+        if(buttonId === 'save') {
+            saveFn(task);
+            
+        } else if (buttonId === 'delete') {
+            deleteFn(task);
+        } else if (buttonId === 'edit') {
+            editFn(task);
+        }
+    }
+
+    const saveFn = (task) => {
+        const now = new Date().toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"}) ;
+        task.children[2].textContent = now;
+    }
+
+    const deleteFn = (task) => {
+        console.log('deleted');
+        task.parentNode.removeChild(task);
+    }
+
+    const editFn = (task) => {
+        console.log('edited');
+    }
+
+
+    return {
+        taskFns,
+
     }
 })();
 
