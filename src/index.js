@@ -219,16 +219,21 @@ const task = (() => {
     }
 
     const priorityBtns = (row) => {
-        priorityBtnArray = ['high', 'medium', 'low', 'none'];
+        priorityNameArray = ['high', 'medium', 'low', 'none'];
         const priorityBtnDiv = document.createElement('div');
         priorityBtnDiv.classList.add('priority-btn-div');
         for (let i = 0; i < 4; i++) {
             const btn = document.createElement('button');
-            btn.classList.add('priority-btn', priorityBtnArray[i]);
-            btn.title = priorityBtnArray[i].toUpperCase();
+            btn.classList.add('priority-btn', priorityNameArray[i]);
+            btn.title = priorityNameArray[i].toUpperCase();
             priorityBtnDiv.appendChild(btn);
         }
         row.children[5].appendChild(priorityBtnDiv);
+
+        const priorityBtnsArray = Array.from(priorityBtnDiv.children);
+        priorityBtnsArray.forEach(button => {
+            button.addEventListener('click', disableRest)
+        })
     }
 
     const completion = (row) => {
@@ -237,17 +242,11 @@ const task = (() => {
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.classList.add('completion');
-        if(checkbox.checked) {
-            console.log('checked')
-            row.children[1].classList.add('line-through');
-        } else {
-            row.children[1].classList.remove('line-through');
-        }
         checkDiv.appendChild(checkbox);
         row.children[8].appendChild(checkDiv);
 
 
-        
+        checkbox.addEventListener('change', _check);
     }
 
     const notes = (row) => {
@@ -263,6 +262,23 @@ const task = (() => {
         
     }
 
+    const _check = (e) => {
+        const title = e.target.parentNode.parentNode.parentNode.children[1];
+        if(e.target.checked){
+            title.classList.add('line-through');
+        } else {
+            title.classList.remove('line-through');
+        }
+        
+    }
+
+    const disableRest = (e) => {
+        btnsArray = Array.from(e.target.parentNode.children);
+        btnsArray.forEach(button => {
+            button.disabled = true;
+        })
+        e.target.disabled = false;
+    }
 
     return {
         title,
@@ -270,7 +286,7 @@ const task = (() => {
         taskBtns,
         priorityBtns,
         completion,
-        notes
+        notes,
     }
 })();
 
@@ -287,7 +303,6 @@ deleteProjectBtn.addEventListener('click', project.deleteProject);
 
 
 displayProjectSelection.addEventListener('change', project.displayProject);
-
 
 
 
