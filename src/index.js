@@ -1,3 +1,13 @@
+import format from 'date-fns/format';
+import getDate from 'date-fns/getDate';
+import getMonth from 'date-fns/getMonth';
+import getYear from 'date-fns/getYear';
+import formatDistanceStrict from 'date-fns/formatDistanceStrict';
+import intervalToDuration from 'date-fns/intervalToDuration';
+import differenceInDays from 'date-fns/differenceInDays';
+
+
+
 const newProjectBtn = document.getElementById('new-project');
 const displayProjectSelection = document.getElementById('display-project');
 const saveProjectBtn = document.getElementById('save-project');
@@ -12,7 +22,7 @@ const project = (() => {
     const projectArray = [];
 
     const createProjectDiv = () => {
-        newdiv = document.createElement('div');
+        const newdiv = document.createElement('div');
         const taskDiv = document.createElement('div');
         const taskBtn = document.createElement('button');
         const projectName = document.createElement('p');
@@ -58,7 +68,7 @@ const project = (() => {
         const projectName = prompt("Please Enter Project Name");
         option.text = projectName;
         option.value = projectName.toLowerCase().split(/[ ,]+/).join('-');
-        className = option.value;
+        const className = option.value;
         displayProjectSelection.add(option);
         // Project Name <p>
         currentDiv.children[0].children[0].textContent = option.text.toUpperCase();;
@@ -160,6 +170,8 @@ const table = (() => {
 
 
         task.title(taskRow);
+        task.currentDate(taskRow);
+        task.dueDate(taskRow);
         task.type(taskRow);
         task.taskBtns(taskRow);
         task.priorityBtns(taskRow);
@@ -185,6 +197,38 @@ const task = (() => {
     const title = (row) => {
         row.children[1].title = "Click To Edit";
         row.children[1].contentEditable = true;
+    }
+
+
+    const currentDate = (row) => {
+        const now = format(new Date(), 'EEEE, dd MMM, yyyy');
+        row.children[2].textContent = now;
+    }
+    const dueDate = (row) => {
+        const dueDate = document.createElement('input');
+        dueDate.type = 'date';
+        dueDate.classList.add('due-date');
+        row.children[3].appendChild(dueDate);
+
+        // console.log(dueDate.textContent);
+        dueDate.addEventListener('change', (e) => {
+            findDuration(e, row)
+        });
+    }
+
+    const findDuration = (e, row) => {
+        const inputDate = e.target.value;
+        const nowDate = getDate(new Date());
+        const nowMonth = getMonth(new Date()) + 1;
+        const nowYear = getYear(new Date());
+        const newDate = inputDate.slice(8, 10);
+        const newMonth = inputDate.slice(5, 7);
+        const newYear = inputDate.slice(0, 4);
+
+
+        const daysRemaining = differenceInDays(new Date(newYear, newMonth, newDate), new Date(nowYear, nowMonth, nowDate), );
+        row.children[6].textContent = `${daysRemaining} Days Remaining`;
+
     }
 
     const type = (row) => {
@@ -227,7 +271,7 @@ const task = (() => {
     }
 
     const priorityBtns = (row) => {
-        priorityNameArray = ['high', 'medium', 'low', 'none'];
+        const priorityNameArray = ['high', 'medium', 'low', 'none'];
         const priorityBtnDiv = document.createElement('div');
         priorityBtnDiv.classList.add('priority-btn-div');
         for (let i = 0; i < 4; i++) {
@@ -281,7 +325,7 @@ const task = (() => {
     }
 
     const disableRest = (e) => {
-        btnsArray = Array.from(e.target.parentNode.children);
+        const btnsArray = Array.from(e.target.parentNode.children);
         btnsArray.forEach(button => {
             button.disabled = true;
         })
@@ -291,6 +335,8 @@ const task = (() => {
 
     return {
         title,
+        currentDate,
+        dueDate,
         type,
         taskBtns,
         priorityBtns,
@@ -302,11 +348,11 @@ const task = (() => {
 
 
 const saveEditDelete = (() => {
-    const taskFns = (e,task) => {
+    const taskFns = (e, task) => {
         const buttonId = e.target.getAttribute('id');
-        if(buttonId === 'save') {
+        if (buttonId === 'save') {
             saveFn(task);
-            
+
         } else if (buttonId === 'delete') {
             deleteFn(task);
         } else if (buttonId === 'edit') {
@@ -315,8 +361,9 @@ const saveEditDelete = (() => {
     }
 
     const saveFn = (task) => {
-        const now = new Date().toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"}) ;
-        task.children[2].textContent = now;
+        // const now = new Date().toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"}) ;
+        console.log('saved', task)
+
     }
 
     const deleteFn = (task) => {
