@@ -92,19 +92,29 @@ const project = (() => {
         if (currentDiv.classList.length === 2) {
             if (confirm("Are You Sure You Want To Delete This Saved Project?")) {
                 document.body.removeChild(currentDiv);
-                document.body.appendChild(projectArray[0]);
-                const currentProjectIndex = projectArray.findIndex(project => project.classList.contains(currentDiv.classList[1]))
-                projectArray.splice(currentProjectIndex, 1);
-                displayProjectSelection.remove(currentProjectIndex + 1);
+                if (projectArray[0]) {
+                    document.body.appendChild(projectArray[0]);
+                    const currentProjectIndex = projectArray.findIndex(project => project.classList.contains(currentDiv.classList[1]))
+                    projectArray.splice(currentProjectIndex, 1);
+                    displayProjectSelection.remove(currentProjectIndex + 1);
+                    displayProjectSelection.value = displayProjectSelection.options[1].value;
+                }
+
             }
         } else if (currentDiv.children[1].children[0].children.length > 1) {
             if (confirm("There is unsaved Data in this project. Do you still want to delete this Project?")) {
                 document.body.removeChild(currentDiv);
-                document.body.appendChild(projectArray[0]);
+                if (projectArray[0]) {
+                    document.body.appendChild(projectArray[0]);
+                    displayProjectSelection.value = displayProjectSelection.options[1].value;
+                }
             }
         } else {
             document.body.removeChild(currentDiv);
-            document.body.appendChild(projectArray[0]);
+            if (projectArray[0]) {
+                document.body.appendChild(projectArray[0]);
+                displayProjectSelection.value = displayProjectSelection.options[1].value;
+            }
         }
     }
 
