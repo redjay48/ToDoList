@@ -226,7 +226,7 @@ const task = (() => {
         const newYear = inputDate.slice(0, 4);
 
 
-        const daysRemaining = differenceInDays(new Date(newYear, newMonth, newDate), new Date(nowYear, nowMonth, nowDate), );
+        const daysRemaining = differenceInDays(new Date(newYear, newMonth, newDate), new Date(nowYear, nowMonth, nowDate),);
         row.children[6].textContent = `${daysRemaining} Days Remaining`;
 
     }
@@ -271,10 +271,10 @@ const task = (() => {
     }
 
     const priorityBtns = (row) => {
-        const priorityNameArray = ['high', 'medium', 'low', 'none'];
+        const priorityNameArray = ['high', 'medium', 'low'];
         const priorityBtnDiv = document.createElement('div');
         priorityBtnDiv.classList.add('priority-btn-div');
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 3; i++) {
             const btn = document.createElement('button');
             btn.classList.add('priority-btn', priorityNameArray[i]);
             btn.title = priorityNameArray[i].toUpperCase();
@@ -284,7 +284,10 @@ const task = (() => {
 
         const priorityBtnsArray = Array.from(priorityBtnDiv.children);
         priorityBtnsArray.forEach(button => {
-            button.addEventListener('click', disableRest)
+            button.addEventListener('click', (e) => {
+                disableRest(e);
+                priorityAll(e, row);
+            })
         })
     }
 
@@ -298,7 +301,9 @@ const task = (() => {
         row.children[8].appendChild(checkDiv);
 
 
-        checkbox.addEventListener('change', _check);
+        checkbox.addEventListener('change', (e) => {
+            _check(e, row);
+        });
     }
 
     const notes = (row) => {
@@ -314,12 +319,16 @@ const task = (() => {
 
     }
 
-    const _check = (e) => {
-        const title = e.target.parentNode.parentNode.parentNode.children[1];
+    const _check = (e, row) => {
+        const rowArray = Array.from(row.children);
         if (e.target.checked) {
-            title.classList.add('line-through');
+            rowArray.forEach(cell => {
+                cell.classList.add(`line-through`);
+            })
         } else {
-            title.classList.remove('line-through');
+            rowArray.forEach(cell => {
+                cell.classList.remove(`line-through`);
+            })
         }
 
     }
@@ -332,6 +341,14 @@ const task = (() => {
         e.target.disabled = false;
     }
 
+    const priorityAll = (e, row) => {
+        const priorityBtn = e.target.classList;
+        const rowArray = Array.from(row.children);
+
+        rowArray.forEach(cell => {
+            cell.classList.add(`${priorityBtn[1]}-text`);
+        })
+    }
 
     return {
         title,
@@ -356,7 +373,7 @@ const saveEditDelete = (() => {
         } else if (buttonId === 'delete') {
             deleteFn(task);
         } else if (buttonId === 'edit') {
-            editFn(task);
+            editFn(e, task);
         }
     }
 
@@ -371,8 +388,16 @@ const saveEditDelete = (() => {
         task.parentNode.removeChild(task);
     }
 
-    const editFn = (task) => {
-        console.log('edited');
+    const editFn = (e, task) => {
+        const priorityBtns = Array.from(e.target.parentNode.parentNode.children[5].children[0].children);
+        priorityBtns.forEach(button => {
+            button.disabled = false;
+        })
+        const rowArray = Array.from(task.children);
+        rowArray.forEach(cell => {
+            cell.classList.remove(cell.classList[1]);
+        })
+
     }
 
 
