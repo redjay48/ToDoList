@@ -2,8 +2,6 @@ import format from 'date-fns/format';
 import getDate from 'date-fns/getDate';
 import getMonth from 'date-fns/getMonth';
 import getYear from 'date-fns/getYear';
-import formatDistanceStrict from 'date-fns/formatDistanceStrict';
-import intervalToDuration from 'date-fns/intervalToDuration';
 import differenceInDays from 'date-fns/differenceInDays';
 
 
@@ -94,13 +92,19 @@ const project = (() => {
         if (currentDiv.classList.length === 2) {
             if (confirm("Are You Sure You Want To Delete This Saved Project?")) {
                 document.body.removeChild(currentDiv);
+                document.body.appendChild(projectArray[0]);
+                const currentProjectIndex = projectArray.findIndex(project => project.classList.contains(currentDiv.classList[1]))
+                projectArray.splice(currentProjectIndex, 1);
+                displayProjectSelection.remove(currentProjectIndex + 1);
             }
         } else if (currentDiv.children[1].children[0].children.length > 1) {
             if (confirm("There is unsaved Data in this project. Do you still want to delete this Project?")) {
                 document.body.removeChild(currentDiv);
+                document.body.appendChild(projectArray[0]);
             }
         } else {
             document.body.removeChild(currentDiv);
+            document.body.appendChild(projectArray[0]);
         }
     }
 
@@ -134,7 +138,7 @@ const table = (() => {
     const taskRowArray = [];
 
     const createToDoHead = (div) => {
-        const headers = ['', 'title', 'Current Date', 'Due Date', 'Type', 'Priority', 'Time Remaining', 'Notes', 'done'];
+        const headers = ['', 'title', 'Date Added', 'Due Date', 'Type', 'Priority', 'Time Remaining', 'Notes', 'done'];
         const table = document.createElement('table');
         table.classList.add('table');
         const tblBody = document.createElement('tbody');
