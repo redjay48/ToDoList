@@ -27,7 +27,7 @@ const project = (() => {
         taskDiv.classList.add('task-div');
         projectName.classList.add('project-name');
         taskBtn.classList.add('task-btn');
-        taskBtn.textContent = "Add New Task";
+        taskBtn.textContent = "New Task";
         taskDiv.appendChild(projectName);
         taskDiv.appendChild(taskBtn);
         newdiv.appendChild(taskDiv);
@@ -336,13 +336,13 @@ const task = (() => {
     const _check = (e, row) => {
         const rowArray = Array.from(row.children);
         if (e.target.checked) {
-            rowArray.forEach(cell => {
-                cell.classList.add(`line-through`);
-            })
+            for (let i = 0; i < rowArray.length - 1; i++) {
+                rowArray[i].classList.add(`line-through`);
+            }
         } else {
-            rowArray.forEach(cell => {
-                cell.classList.remove(`line-through`);
-            })
+            for (let i = 0; i < rowArray.length - 1; i++) {
+                rowArray[i].classList.remove(`line-through`);
+            }
         }
 
     }
