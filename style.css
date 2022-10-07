@@ -14,9 +14,80 @@ body {
     grid-template-rows: .25fr 1fr;
     justify-content: center;
     align-items: center;
+    margin: 0;
 }
 
-.table,
+h1 {
+    width: 102vw;
+    padding-top: 12px;
+    text-align: center;
+    padding-bottom: 12px;
+    margin: 0;
+    background-color: rgb(186, 197, 167);
+}
+
+#header {
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 20px;
+    gap: 18px;
+    background-color: rgb(223, 233, 206);
+
+}
+
+#header>label,
+#header>select {
+    margin-bottom: 30px;
+}
+
+#header>label {
+    font-size: 18px;
+    font-weight: 400;
+    color: rgb(130, 139, 84);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+
+}
+#header>select {
+    color: rgb(156, 167, 98);
+    background-color: #f0f0f0;
+    border: 2px solid outset;
+    padding: 1px;
+    height: 49px;
+    font-size: 16px;
+    line-height: 45px;
+    font-weight: 400;
+    max-width: auto;
+    margin: 0 auto 2em;
+    position: relative;
+    width: auto;
+}
+
+#header>select:hover {
+    background-color: #e0e0e0;
+}
+
+button {
+    color: rgb(156, 167, 98);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 45px;
+    max-width: 160px;
+    margin: 0 auto 2em;
+    position: relative;
+    width: 100%;
+}
+
+
+.project {
+    width: 100vw;
+    background-color: rgb(186, 197, 167);
+
+
+}
+
 .cell {
     border: 1px solid black;
     background-color: aliceblue;
@@ -24,10 +95,12 @@ body {
 
 .table {
     margin-top: 25px;
+    padding-right: 40px;
 }
 
 .cell {
     padding: 12px;
+    width: auto;
 }
 
 .task-div {
@@ -38,16 +111,42 @@ body {
     margin-top: 40px;
 }
 
+.task-btn-div {
+    padding-left: 8px;
+    display: flex;
+    gap: 8px;
+    padding-top: 24px;
+}
+
+.task-btns {
+    border-radius: 4px;
+    border: 1px solid;
+    width: 64px;
+
+}
+
+.task-btns:hover {
+    background-color: #e0e0e0;
+}
+
 .cell {
     align-self: center;
 }
 
+.priority-btn-div {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 8px;
+}
 .priority-btn {
     border-radius: 50%;
     height: 20px;
     width: 20px;
     border: 1px solid gray;
+    margin: 0;
 }
+
 .high-text {
     color: red;
 }
@@ -65,7 +164,7 @@ body {
 }
 
 .medium-text {
-    color: rgb(255, 187, 0);;
+    color: rgb(214, 157, 0);
 }
 
 .medium {
