@@ -148,11 +148,12 @@ const table = (() => {
     const taskRowArray = [];
 
     const createToDoHead = (div) => {
-        const headers = ['', 'title', 'Date Added', 'Due Date', 'Type', 'Priority', 'Time Remaining', 'Notes', 'done'];
+        const headers = ['', 'title', 'Date Added', 'Due Date', 'Type', 'Priority', 'Duration', 'Notes', 'done'];
         const table = document.createElement('table');
         table.classList.add('table');
         const tblBody = document.createElement('tbody');
         const headRow = document.createElement('tr');
+        headRow.classList.add('head-row');
         for (let i = 0; i < 9; i++) {
             const cell = document.createElement('td');
             cell.classList.add('cell');
@@ -168,7 +169,7 @@ const table = (() => {
 
 
     const addNewTaskToTable = () => {
-        const headers = ['sl-no', 'title', 'Current Date', 'Due Date', 'Type', 'Priority', 'Time Remaining', 'Notes', 'done'];
+        const headers = ['sl-no', 'title', 'Current Date', 'Due Date', 'Type', 'Priority', 'Duration', 'Notes', 'done'];
         const tblBody = document.body.children[3].children[1].children[0];
         const taskRow = document.createElement('tr');
         taskRowArray.push(taskRow);
