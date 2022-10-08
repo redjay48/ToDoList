@@ -2,7 +2,7 @@
     display: grid;
     align-items: flex-start;
     justify-content: center;
-    grid-template-columns: 1fr 6fr;
+    grid-template-columns: 1fr 6fr minmax(0, 1fr);
     min-height: 62vh;
     width: 100vw;
     background-color: rgb(186, 197, 167);
@@ -110,7 +110,7 @@ input.due-date {
     font-size: 16px;
     font-weight: 500;
     padding: 4px;
-    color: rgb(81, 94, 55);
+    color: rgb(156, 167, 98);
 }
 
 input.due-date:hover {
@@ -124,7 +124,7 @@ select.task-type {
     font-size: 16px;
     font-weight: 500;
     padding: 4px;
-    color: rgb(81, 94, 55);
+    color: rgb(156, 167, 98);
 }
 
 select.task-type:hover {
